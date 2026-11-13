@@ -17,11 +17,11 @@ Your TaskFlow API deployed on Render:
 https://aie-backend-taskflow-api.onrender.com
 ```
 
-### Screenshot: Railway dashboard
+### Screenshot: Render dashboard
 
-Your Railway dashboard showing the active deployment. Save the image in the `screenshots/` folder and update the file name below if needed.
+Your Render dashboard showing the active deployment. Save the image in the `screenshots/` folder and update the file name below if needed.
 
-![Railway dashboard](screenshots/dashboard.png)
+![Render dashboard](screenshots/dashboard.png)
 
 ### Screenshot: Live application
 
@@ -45,9 +45,18 @@ Error at Task 3:
 Which stretch goal you chose (if any), what you built, and any links (for example, your frontend URL, CI pipeline run or Docker Hub tags).
 
 ```
-Stretch goal: <option number and name, or "None">
-Links: <https://...>
-Notes: <what you built and anything that didn't work>
+Stretch goal: 1: ADD A CI PIPELINE
+Links: 
+- Render Link from successful Pipeline Run
+https://taskflow-api-latest-45w8.onrender.com/api/tasks
+- Docker Container:
+https://hub.docker.com/repository/docker/techsynth012/taskflow-api/tags/latest/sha256-901fec8a7083412891721453516ecfff625cd3d8bb146b3592af950e3068778c
+Notes: Created a pipeline using CircleCI and added notification to my own Discord Server:
+![CircleCI Pipeline Run](screenshots/CircleCI-run.png)
+CircleCI
+APP
+ — 4:50 PM
+✅ devops-demo deployed to production - commit 6469e92 by whho21
 ```
 
 ## Getting started
