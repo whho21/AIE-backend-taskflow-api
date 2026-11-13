@@ -84,6 +84,31 @@ jobs:
               --wait --confirm --output text
             echo "The new version is live on Render."
 
+  # ==========================================
+  # NOTIFY JOB - Post the deployment result to Discord
+  # ==========================================
+  notify:
+    parameters:
+      result:
+        type: enum
+        enum: ["success", "failed"]
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run:
+          name: Send the deployment result to Discord
+          command: |
+            if [ "<< parameters.result >>" = "success" ]; then
+              MESSAGE="✅ devops-demo deployed to production - commit ${CIRCLE_SHA1:0:7} by ${CIRCLE_USERNAME}"
+            else
+              MESSAGE="❌ devops-demo deployment FAILED - commit ${CIRCLE_SHA1:0:7} by ${CIRCLE_USERNAME}. Production is still running the previous version."
+            fi
+            curl --fail --silent --show-error \
+              -H "Content-Type: application/json" \
+              -d "{\"content\": \"${MESSAGE}\"}" \
+              "$DISCORD_WEBHOOK_URL"
+            echo "Posted to Discord: ${MESSAGE}"
+
 workflows:
   build_test_publish:
     jobs:
@@ -99,3 +124,13 @@ workflows:
           context: docker-hub
           requires:
             - publish
+      - notify:
+          name: notify-success
+          result: success
+          requires:
+            - deploy: success
+      - notify:
+          name: notify-failure
+          result: failed
+          requires:
+            - deploy: failed
