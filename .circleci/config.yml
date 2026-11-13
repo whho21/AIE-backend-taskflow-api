@@ -55,14 +55,34 @@ jobs:
           name: Build Docker image
           command: |
             echo "Building Docker image..."
-            docker build -t $DOCKER_USERNAME/devops-demo:latest .
+            docker build -t $DOCKER_USERNAME/taskflow-api:latest .
       - run:
           name: Push to Docker Hub
           command: |
             echo "Logging in to Docker Hub..."
             echo $DOCKER_TOKEN | docker login -u $DOCKER_USERNAME --password-stdin
             echo "Pushing image to Docker Hub..."
-            docker push $DOCKER_USERNAME/devops-demo:latest
+            docker push $DOCKER_USERNAME/taskflow-api:latest
+
+  deploy:
+    docker:
+      - image: cimg/base:stable
+    environment:
+      IMAGE_URL: docker.io/techsynth012/taskflow-api:latest
+    steps:
+      - run:
+          name: Install the Render CLI
+          command: |
+            curl -fsSL https://raw.githubusercontent.com/render-oss/cli/refs/heads/main/bin/install.sh | sh
+            echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$BASH_ENV"
+      - run:
+          name: Redeploy latest image on Render and wait
+          command: |
+            echo "Asking Render to deploy $IMAGE_URL..."
+            render deploys create "$RENDER_SERVICE_ID" \
+              --image "$IMAGE_URL" \
+              --wait --confirm --output text
+            echo "The new version is live on Render."
 
 workflows:
   build_test_publish:
@@ -75,3 +95,7 @@ workflows:
           context: docker-hub
           requires:
             - test
+      - deploy:
+          context: docker-hub
+          requires:
+            - publish
