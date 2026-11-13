@@ -34,10 +34,7 @@ Your live Railway URL returning task data (in your browser or terminal).
 If you didn't complete every task, list what you completed, what went wrong, and the error messages you saw. If everything worked, write "None".
 
 ```
-Completed: Task 1, Task 2
-
-Error at Task 3:
-<paste the error message here>
+None.
 ```
 
 ### Stretch goal (optional)
@@ -51,8 +48,10 @@ Links:
 https://taskflow-api-latest-45w8.onrender.com/api/tasks
 - Docker Container:
 https://hub.docker.com/repository/docker/techsynth012/taskflow-api/tags/latest/sha256-901fec8a7083412891721453516ecfff625cd3d8bb146b3592af950e3068778c
-Notes: Created a pipeline using CircleCI and added notification to my own Discord Server:
+```
 ![CircleCI Pipeline Run](screenshots/CircleCI-run.png)
+```
+Notes: Created a pipeline using CircleCI and added notification to my own Discord Server:
 CircleCI
 APP
  — 4:50 PM
